@@ -24,14 +24,14 @@ $date= date('F d, Y, g: i a');
 if(isset($_POST["events"])){
 
   $arr=($_POST['events']);
- for($i=0;$i<count($arr);$i++){
-    $keyname=$arr[$i]['keyname'];
-    $keytarget=$arr[$i]['keytarget'];
-    $pressdate=$arr[$i]['pressdate'];
-    $sql="Insert Into eventlocal values('$keyname','$keytarget','$pressdate')";
+  
+  foreach($arr as $obj){
+    $date = ($obj["pressdate"]);
+    $name = ($obj["keyname"]);
+    $target = ($obj["keytarget"]);
+    $sql="Insert Into eventlocal (keyname,keytarget,pressdate) values('$name','$target','$date')";
     $conn->query($sql);
   }
-
   if($conn->affected_rows > 0){
     echo "Inserted Successfully";
   }
@@ -45,7 +45,7 @@ if(isset($_GET['events'])){
   $sql = "Select keyname,keytarget,pressdate from eventlocal"; 
   if ($result = $conn->query($sql)){
     if($result->num_rows > 0){
-      echo "<table><tr><th>KEY NAME</th><th>KEY TARGET</th><th>DATE</th></tr>";
+      echo "<table border='1px'><tr><th>KEY NAME</th><th>KEY TARGET</th><th>DATE</th></tr>";
      while($row = $result->fetch_assoc()){
       echo "<tr><td>" . $row["keyname"]. "</td><td>" 
       . $row["keytarget"]. "</td><td>".$row["pressdate"]."</td></tr>";

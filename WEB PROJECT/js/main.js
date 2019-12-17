@@ -134,7 +134,7 @@ window.addEventListener("load",function(e){
 
     if(localStorage.getItem('loadkey') !== null){
         var loadj = JSON.parse(localStorage.getItem('loadkey'));
-        var loadtemp=new key(e.type,e.target.textContent,new Date().toDateString(),);
+        var loadtemp=new key(e.type,"the page loaded",new Date().toDateString(),);
         loadj.key.push(loadtemp );
         console.log(loadj);
         for(var i=0;i<loadj.key.length;i++){
@@ -149,7 +149,7 @@ window.addEventListener("load",function(e){
         var loadt ={
             'key' : []
         }
-        var loadtemp=new key(e.type,e.target.textContent,new Date().toDateString());
+        var loadtemp=new key(e.type,"the page loaded",new Date().toDateString());
         loadt.key.push(loadtemp);
         for(var i=0;i<loadt.key.length;i++){
             $arr.push(loadt.key[i]);
@@ -168,7 +168,7 @@ window.addEventListener('unload',function(e){
 
     if(localStorage.getItem('unloadkey') !== null){
         var unloadj = JSON.parse(localStorage.getItem('unloadkey'));
-        var unloadtemp=new key(e.type,e.target.textContent,new Date().toDateString());
+        var unloadtemp=new key(e.type,"the page unloaded",new Date().toDateString());
         loadj.key.push(unloadtemp );
         for(var i=0;i<unloadj.key.length;i++){
             $arr.push(unloadj.key[i]);
@@ -182,7 +182,7 @@ window.addEventListener('unload',function(e){
         var unloadt ={
             'key' : []
         }
-        var unloadtemp=new key(e.type,e.target.textContent,new Date().toDateString());
+        var unloadtemp=new key(e.type,"the page unloaded",new Date().toDateString());
         unloadj.key.push(unloadtemp );
         for(var i=0;i<unloadj.key.length;i++){
             $arr.push(unloadj.key[i]);
@@ -195,28 +195,27 @@ window.addEventListener('unload',function(e){
 );
 
 window.setInterval(function(){
-    
-    // console.log($arr);
     $.ajax({
         "type": "POST",
         "url":  "js/main.php",
         "data": {"events":$arr},
         "success": function(response){
-                console.log(response);
+            console.log(response);
+            localStorage.clear();
+            $arr = [];
         }
  });
- localStorage.clear();
 }, 5000);
 
- //Receiving Stored Data From Server
+ //Show Stored Data From Server
  $("#local").click(function(){
+     document.getElementById("resp").innerHTML="";
     $.ajax({
         "type": "GET",
-        "url":  "main.php",
+        "url":  "js/main.php",
         "data": {"events":""},
         "success": function(response){
             if(response){
-            $("#resp").innerHTML="";
             $("#resp").append(response);
             }
         }

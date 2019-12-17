@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ahmed</title>
+</head>
+<body>
+    
+    <input type="text" id="txt"><button id="btn">GE Product DataT</button>
+    <div id="div"></div>
+    <script src="jquery-3.4.1.min.js"></script>
+
+    <script>
+        $x=$("#txt").val();    
+        $("#btn").click(function (){
+            $.ajax({
+            "type":"GET",
+            "url":"https://reqres.in/api/products"+$("#txt").val(),
+            "success":function(response){
+               var $div = $("#div");
+               var arr = response.data;
+               for(var i=0;i<= arr.length ;i++){
+                   if(i+1==$("#txt").val()){
+                   $div.append('<p>'+ arr[i].id+'<br>'+arr[i].name+ '<br>'+arr[i].year+'</p>')
+               }}
+            }
+            
+        });  
+    });
+       
+    </script>
+</body>
+</html>
